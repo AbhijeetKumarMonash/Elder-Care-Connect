@@ -4,8 +4,59 @@
     <div class="container mt-4">
       <div class="row justify-content-center">
         <div class="col-12">
-          <h1 class="text-center">Elder Care Connect</h1>
-          <img src="../images/websitemain.jpg" alt="Elderly people smiling" class="img-fluid" />
+          <div id="homeCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button
+                type="button"
+                data-bs-target="#homeCarousel"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#homeCarousel"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#homeCarousel"
+                data-bs-slide-to="2"
+                aria-label="Slide 3"
+              ></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="../images/websitemain.jpg" class="d-block w-100" alt="First slide" />
+              </div>
+              <div class="carousel-item">
+                <img src="../images/Elder2.jpg" class="d-block w-100" alt="Second slide" />
+              </div>
+              <div class="carousel-item">
+                <img src="../images/Elder3.jpg" class="d-block w-100" alt="Third slide" />
+              </div>
+            </div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#homeCarousel"
+              data-bs-slide="prev"
+            >
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#homeCarousel"
+              data-bs-slide="next"
+            >
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
         </div>
       </div>
       <div class="row mt-4">
@@ -40,9 +91,9 @@ export default {
 </script>
 
 <style scoped>
-img {
-  max-width: 100%;
-  height: auto;
+.carousel-item img {
+  height: 100%;
+  object-fit: cover;
 }
 .about-us-section {
   background-color: #007bff;
@@ -69,12 +120,5 @@ img {
   font-size: 1.2rem;
   margin-bottom: 15px;
   line-height: 1.6;
-}
-.justify-content-center h1 {
-  background-color: #007bff;
-  color: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 </style>

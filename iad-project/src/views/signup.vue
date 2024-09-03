@@ -3,7 +3,6 @@
     <BHeader />
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-6 col-md-8 col-sm-10">
-        <h1 class="text-center">Elder Care Connect</h1>
         <h3 class="text-center">Welcome To Sign-Up page</h3>
         <p class="text-center">
           Please fill out the form to join a community designed to uplift and support you. With our

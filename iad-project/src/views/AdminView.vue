@@ -3,7 +3,6 @@
     <BHeader />
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-6 col-md-8 col-sm-10">
-        <h1 class="text-center">Elder Care Connect</h1>
         <h3 class="text-center">Admin Dashboard</h3>
         <p class="text-center">Welcome, Admin! You have access to manage the application.</p>
         <div class="text-center">

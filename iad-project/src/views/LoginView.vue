@@ -3,7 +3,6 @@
     <BHeader />
     <div class="row justify-content-center">
       <div class="col-xl-4 col-lg-6 col-md-8 col-sm-10">
-        <h1 class="text-center">Elder Care Connect</h1>
         <h3 class="text-center">Welcome To login</h3>
         <form @submit.prevent="submitForm">
           <div class="row mb-3 justify-content-center">
@@ -142,7 +141,6 @@ const redirectToSignup = () => {
   border-radius: 10px;
 }
 
-/* Class selectors */
 .form {
   text-align: center;
   margin-top: 50px;
