@@ -1,32 +1,167 @@
 <template>
-  <div class="form">
-    <h1>Sign up form</h1>
-    <form>
-      <label for="username">Username:</label><br />
-      <input type="text" id="username" name="username" /><br />
+  <div class="container mt-5">
+    <BHeader />
+    <div class="row justify-content-center">
+      <div class="col-xl-4 col-lg-6 col-md-8 col-sm-10">
+        <h1 class="text-center">Elder Care Connect</h1>
+        <h3 class="text-center">Welcome To Sign-Up page</h3>
+        <p class="text-center">
+          Please fill out the form to join a community designed to uplift and support you. With our
+          services, you'll make new friends and create lasting memories, making this chapter of your
+          life truly wonderful
+        </p>
+        <form @submit.prevent="submitForm">
+          <div class="row mb-3 justify-content-center">
+            <div class="col-md-6 col-sm-6">
+              <label for="username" class="form-label">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                @blur="() => validateName(true)"
+                @input="() => validateName(false)"
+                v-model="formData.username"
+              />
+              <div v-if="errors.username" class="text-danger">{{ errors.username }}</div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <label for="age" class="form-label">Age</label>
+              <input
+                type="integer"
+                class="form-control"
+                id="age"
+                @blur="() => validateage(true)"
+                v-model="formData.age"
+              />
+              <div v-if="errors.age" class="text-danger">{{ errors.age }}</div>
+            </div>
+          </div>
+          <div class="row mb-3 justify-content-center">
+            <div class="col-12">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="text"
+                class="form-control"
+                id="email"
+                @blur="() => validateemail(true)"
+                v-model="formData.email"
+              />
+              <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
+            </div>
+          </div>
 
-      <label for="password">Password:</label><br />
-      <input type="password" id="password" name="password" /><br />
-
-      <label for="Age">Age:</label><br />
-      <input type="number" id="Age" name="Age" /><br />
-
-      <label for="Retired">Are you Retired?</label><br />
-      <input type="checkbox" id="Retired" name="Retired" /><br />
-
-      <label for="reason">Reason For Joining:</label><br />
-      <textarea id="reason" name="reason" rows="3"></textarea><br />
-
-      <label for="gender">Gender</label><br />
-      <select id="gender">
-        <option value="female">Female</option>
-        <option value="male">Male</option>
-        <option value="other">Other</option>
-      </select>
-    </form>
+          <div class="row mb-3 justify-content-center">
+            <div class="col-md-6 col-sm-6">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                @blur="() => validatePassword(true)"
+                @input="() => validatePassword(false)"
+                v-model="formData.password"
+              />
+              <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <label for="confirm-password" class="form-label">Confirm Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirm-password"
+                v-model="formData.password"
+                @blur="() => validateConfirmPassword(true)"
+              />
+              <div v-if="errors.confirmPassword" class="text-danger">
+                {{ errors.confirmPassword }}
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary me-2">Submit</button>
+            <button type="button" class="btn btn-secondary" @click="clearForm">Clear</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import BHeader from '@/components/BHeader.vue'
 
-<style scoped></style>
+import { ref } from 'vue'
+
+const formData = ref({
+  username: '',
+  password: '',
+  confirmPassword: ''
+})
+
+const submittedCards = ref([])
+
+const submitForm = () => {
+  validateName(true)
+  validatePassword(true)
+  if (!errors.value.username && !errors.value.password) {
+    submittedCards.value.push({ ...formData.value })
+    clearForm()
+  }
+}
+
+const clearForm = () => {
+  formData.value = {
+    username: '',
+    password: '',
+    confirmPassword: ''
+  }
+}
+const errors = ref({
+  username: null,
+  password: null,
+  confirmPassword: null,
+  Address: null,
+  contactDetails: null
+})
+
+const validateName = (blur) => {
+  if (formData.value.username.length < 3) {
+    if (blur) errors.value.username = 'Name must be at least 3 characters'
+  } else {
+    errors.value.username = null
+  }
+}
+
+const validatePassword = (blur) => {
+  const password = formData.value.password
+  const minLength = 8
+  const hasUppercase = /[A-Z]/.test(password)
+  const hasLowercase = /[a-z]/.test(password)
+  const hasNumber = /\d/.test(password)
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password)
+
+  if (password.length < minLength) {
+    if (blur) errors.value.password = `Password must be at least ${minLength} characters long.`
+  } else if (!hasUppercase) {
+    if (blur) errors.value.password = 'Password must contain at least one uppercase letter.'
+  } else if (!hasLowercase) {
+    if (blur) errors.value.password = 'Password must contain at least one lowercase letter.'
+  } else if (!hasNumber) {
+    if (blur) errors.value.password = 'Password must contain at least one number.'
+  } else if (!hasSpecialChar) {
+    if (blur) errors.value.password = 'Password must contain at least one special character.'
+  } else {
+    errors.value.password = null
+  }
+}
+</script>
+
+<style scoped>
+.justify-content-center p {
+  background-color: #007bff;
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+</style>
