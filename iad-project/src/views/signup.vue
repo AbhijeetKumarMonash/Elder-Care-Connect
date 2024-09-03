@@ -273,14 +273,18 @@ const errors = ref({
 })
 
 const validateName = (blur) => {
-  if (formData.value.username.length < 5) {
-    if (blur) errors.value.username = 'Name must be at least 5 characters'
+  const invalidChars = /['"%;()<>\\]/
+  if (formData.value.username.length < 3) {
+    if (blur) errors.value.username = 'Name must be at least 3 characters'
+  } else if (invalidChars.test(formData.value.username)) {
+    if (blur) errors.value.username = 'Name contains invalid characters'
   } else {
     errors.value.username = null
   }
 }
 
 const validatePassword = (blur) => {
+  const invalidChars = /['"%;()<>\\]/
   const password = formData.value.password
   const minLength = 8
   const hasUppercase = /[A-Z]/.test(password)
@@ -290,6 +294,8 @@ const validatePassword = (blur) => {
 
   if (password.length < minLength) {
     if (blur) errors.value.password = `Password must be at least ${minLength} characters long.`
+  } else if (invalidChars.test(password)) {
+    if (blur) errors.value.password = 'Password contains invalid characters'
   } else if (!hasUppercase) {
     if (blur) errors.value.password = 'Password must contain at least one uppercase letter.'
   } else if (!hasLowercase) {
