@@ -12,6 +12,15 @@
         </p>
         <form @submit.prevent="submitForm">
           <div class="row mb-3 justify-content-center">
+            <div class="col-12">
+              <label for="role" class="form-label">Role</label>
+              <select v-model="formData.role" id="role" class="form-select">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-3 justify-content-center">
             <div class="col-md-6 col-sm-6">
               <label for="username" class="form-label">Username</label>
               <input
@@ -137,6 +146,7 @@ import BHeader from '@/components/BHeader.vue'
 import { ref } from 'vue'
 
 const formData = ref({
+  role: 'user',
   username: '',
   age: '',
   email: '',
@@ -168,7 +178,20 @@ const submitForm = () => {
     !errors.value.password &&
     !errors.value.confirmPassword
   ) {
-    submittedCards.value.push({ ...formData.value })
+    const users = JSON.parse(localStorage.getItem('users')) || []
+    users.push({
+      role: formData.value.role,
+      username: formData.value.username,
+      age: formData.value.age,
+      Address: formData.value.address,
+      contactDetails: formData.value.contactDetails,
+      emergencyContact: formData.value.emergencyContact,
+      password: formData.value.password
+    })
+    localStorage.setItem('users', JSON.stringify(users))
+
+    // Redirect or notify success
+    console.log('User registered:', formData.value)
     clearForm()
   }
 }
@@ -225,6 +248,16 @@ const clearForm = () => {
     emergencyContact: '',
     password: '',
     confirmPassword: ''
+  }
+  errors.value = {
+    username: null,
+    age: null,
+    email: null,
+    Address: null,
+    contactDetails: null,
+    emergencyContact: null,
+    password: null,
+    confirmPassword: null
   }
 }
 const errors = ref({

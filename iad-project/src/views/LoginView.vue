@@ -46,21 +46,47 @@
 
 <script setup>
 import BHeader from '@/components/BHeader.vue'
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 
 const formData = ref({
-  username: '',
-  password: ''
+  username: localStorage.getItem('username') || '',
+  password: localStorage.getItem('password') || ''
 })
 
 const submittedCards = ref([])
+
+watch(
+  formData,
+  (newData) => {
+    localStorage.setItem('username', newData.username)
+    localStorage.setItem('password', newData.password)
+  },
+  { deep: true }
+)
 
 const submitForm = () => {
   validateName(true)
   validatePassword(true)
   if (!errors.value.username && !errors.value.password) {
-    submittedCards.value.push({ ...formData.value })
-    clearForm()
+    // Authenticate user
+    const users = JSON.parse(localStorage.getItem('users')) || []
+    const user = users.find(
+      (u) => u.username === formData.value.username && u.password === formData.value.password
+    )
+
+    if (user) {
+      console.log('User logged in:', user)
+      if (user.role === 'admin') {
+        // Redirect to admin page
+        console.log('Redirecting to admin page...')
+      } else {
+        // Redirect to user page
+        console.log('Redirecting to user page...')
+      }
+    } else {
+      errors.value.username = 'Invalid username or password'
+      errors.value.password = 'Invalid username or password'
+    }
   }
 }
 
