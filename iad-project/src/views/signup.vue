@@ -27,7 +27,7 @@
             <div class="col-md-6 col-sm-6">
               <label for="age" class="form-label">Age</label>
               <input
-                type="integer"
+                type="number"
                 class="form-control"
                 id="age"
                 @blur="() => validateage(true)"
@@ -113,7 +113,7 @@
                 type="password"
                 class="form-control"
                 id="confirm-password"
-                v-model="formData.password"
+                v-model="formData.confirmPassword"
                 @blur="() => validateConfirmPassword(true)"
               />
               <div v-if="errors.confirmPassword" class="text-danger">
@@ -151,11 +151,43 @@ const submittedCards = ref([])
 
 const submitForm = () => {
   validateName(true)
+  validateAge(true)
+  validateEmail(true)
+  validateAddress(true)
+  validateContactDetails(true)
+  validateEmergencyContact(true)
   validatePassword(true)
   validateConfirmPassword(true)
-  if (!errors.value.username && !errors.value.password && !errors.value.confirmPassword) {
+  if (
+    !errors.value.username &&
+    !errors.value.age &&
+    !errors.value.email &&
+    !errors.value.address &&
+    !errors.value.contactDetails &&
+    !errors.value.emergencyContact &&
+    !errors.value.password &&
+    !errors.value.confirmPassword
+  ) {
     submittedCards.value.push({ ...formData.value })
     clearForm()
+  }
+}
+
+const validateAge = (blur) => {
+  const age = parseInt(formData.value.age, 10)
+  if (!age || age < 50 || age > 100) {
+    if (blur) errors.value.age = 'Please enter a valid age between 50 and 100'
+  } else {
+    errors.value.age = null
+  }
+}
+
+const validateEmail = (blur) => {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailPattern.test(formData.value.email)) {
+    if (blur) errors.value.email = 'Please enter a valid email address'
+  } else {
+    errors.value.email = null
   }
 }
 
@@ -183,8 +215,8 @@ const errors = ref({
 })
 
 const validateName = (blur) => {
-  if (formData.value.username.length < 3) {
-    if (blur) errors.value.username = 'Name must be at least 3 characters'
+  if (formData.value.username.length < 5) {
+    if (blur) errors.value.username = 'Name must be at least 5 characters'
   } else {
     errors.value.username = null
   }
