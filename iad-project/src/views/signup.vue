@@ -60,11 +60,11 @@
           </div>
           <div class="row mb-3 justify-content-center">
             <div class="col-12">
-              <label for="address" class="form-label">Address</label>
+              <label for="Address" class="form-label">Address</label>
               <input
                 type="text"
                 class="form-control"
-                id="address"
+                id="Address"
                 @blur="() => validateAddress(true)"
                 v-model="formData.Address"
               />
@@ -172,7 +172,7 @@ const submitForm = () => {
     !errors.value.username &&
     !errors.value.age &&
     !errors.value.email &&
-    !errors.value.address &&
+    !errors.value.Address &&
     !errors.value.contactDetails &&
     !errors.value.emergencyContact &&
     !errors.value.password &&
@@ -183,7 +183,8 @@ const submitForm = () => {
       role: formData.value.role,
       username: formData.value.username,
       age: formData.value.age,
-      Address: formData.value.address,
+      email: formData.value.email,
+      Address: formData.value.Address,
       contactDetails: formData.value.contactDetails,
       emergencyContact: formData.value.emergencyContact,
       password: formData.value.password
