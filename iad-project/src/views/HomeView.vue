@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="row mt-4">
-        <div class="col text-center bg-primary text-white py-4">
+        <div class="col text-center about-us-section">
           <h2>About Us</h2>
           <h3>Our Mission</h3>
           <p>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import BHeader from '../components/BHeader.vue'
+import BHeader from '@/components/BHeader.vue'
 
 export default {
   name: 'HomeView',
@@ -43,7 +43,30 @@ img {
   max-width: 100%;
   height: auto;
 }
-.bg-primary {
-  background-color: #007bff !important;
+.about-us-section {
+  background-color: #007bff;
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about-us-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.about-us-section h3 {
+  font-size: 1.75rem;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.about-us-section p {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  line-height: 1.6;
 }
 </style>

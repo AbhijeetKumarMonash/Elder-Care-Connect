@@ -1,33 +1,24 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-      <a class="navbar-brand" href="#">ElderCareConnect</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link">About Us</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/services" class="nav-link">Featured Services</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/testimonials" class="nav-link">Testimonial</router-link>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <div class="container">
+    <header class="d-flex justify-content-center py-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <router-link to="/" class="nav-link" active-class="active" aria-current="page"
+            >About Us</router-link
+          >
+        </li>
+        <li class="nav-item">
+          <router-link to="/rating" class="nav-link" active-class="active">Rating</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/signup" class="nav-link" active-class="active">Sign-up</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
+        </li>
+      </ul>
+    </header>
+  </div>
 </template>
 
 <script>
