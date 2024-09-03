@@ -191,7 +191,6 @@ const submitForm = () => {
     })
     localStorage.setItem('users', JSON.stringify(users))
 
-    // Redirect or notify success
     console.log('User registered:', formData.value)
     clearForm()
   }

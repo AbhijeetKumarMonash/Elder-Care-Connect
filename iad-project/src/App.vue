@@ -18,14 +18,12 @@ export default {
 </script>
 
 <style>
-/* Ensuring full-width content with padding */
 #app {
   width: 100%;
   margin: 0;
   padding: 0;
 }
 
-/* Making sure images are responsive */
 img {
   max-width: 100%;
   height: Auto;
@@ -34,7 +32,6 @@ img {
   margin-right: auto;
 }
 
-/* Styling for the navbar logo */
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -47,7 +44,6 @@ img {
   text-align: center;
 }
 
-/* Styling the about-us section */
 .about-us-section {
   background-color: #007bff;
   color: white;
@@ -59,7 +55,6 @@ img {
   margin: 20px auto;
 }
 
-/* Ensuring responsiveness */
 @media (max-width: 768px) {
   .about-us-section h2 {
     font-size: 2rem;
@@ -72,7 +67,6 @@ img {
   }
 }
 
-/* Global body styling to center content and add some padding */
 body {
   font-family: Arial, sans-serif;
   background-color: #f8f9fa;

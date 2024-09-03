@@ -66,7 +66,6 @@ const submitForm = () => {
   validateName(true)
   validatePassword(true)
   if (!errors.value.username && !errors.value.password) {
-    // Authenticate user
     const users = JSON.parse(localStorage.getItem('users')) || []
     const user = users.find(
       (u) => u.username === formData.value.username && u.password === formData.value.password

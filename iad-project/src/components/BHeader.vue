@@ -1,28 +1,32 @@
 <template>
-  <div class="container">
-    <header class="d-flex justify-content-center py-3">
-      <ul class="nav nav-pills">
-        <li class="nav-item">
-          <router-link to="/" class="nav-link" active-class="active" aria-current="page"
-            >About Us</router-link
-          >
-        </li>
-        <li class="nav-item">
-          <router-link to="/rating" class="nav-link" active-class="active">Rating</router-link>
-        </li>
-        <li v-if="currentUser" class="nav-item">
-          <router-link to="/account" class="nav-link" active-class="active"
-            >Account Information</router-link
-          >
-        </li>
-        <li v-if="currentUser" class="nav-item">
-          <button @click="logout" class="btn btn-link nav-link">Logout</button>
-        </li>
-        <li v-else class="nav-item">
-          <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
-        </li>
-      </ul>
-    </header>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <header class="d-flex justify-content-center py-3">
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <router-link to="/" class="nav-link" active-class="active" aria-current="page"
+                >About Us</router-link
+              >
+            </li>
+            <li class="nav-item">
+              <router-link to="/rating" class="nav-link" active-class="active">Rating</router-link>
+            </li>
+            <li v-if="currentUser" class="nav-item">
+              <router-link to="/account" class="nav-link" active-class="active"
+                >Account Information</router-link
+              >
+            </li>
+            <li v-if="currentUser" class="nav-item">
+              <button @click="logout" class="btn btn-link nav-link">Logout</button>
+            </li>
+            <li v-else class="nav-item">
+              <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
+            </li>
+          </ul>
+        </header>
+      </div>
+    </div>
   </div>
 </template>
 

@@ -2,8 +2,9 @@
   <div>
     <BHeader />
     <div class="container mt-4">
-      <div class="row">
-        <div class="col text-center">
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <h1 class="text-center">Elder Care Connect</h1>
           <img src="../images/websitemain.jpg" alt="Elderly people smiling" class="img-fluid" />
         </div>
       </div>
@@ -12,13 +13,13 @@
           <h2>About Us</h2>
           <h3>Our Mission</h3>
           <p>
-            At ElderAwesome, our mission is to enhance the well-being and quality of life for the
-            elderly population by providing accessible healthcare resources, fostering social
+            At Elder Care Connect, our mission is to enhance the well-being and quality of life for
+            the elderly population by providing accessible healthcare resources, fostering social
             connections, and promoting mental and physical wellness.
           </p>
           <h3>Who We Are</h3>
           <p>
-            Founded in [Year], we are a dedicated health charity that offers a variety of services
+            Founded in 2023, we are a dedicated health charity that offers a variety of services
             aimed at supporting seniors in their journey toward healthier, more fulfilling lives.
           </p>
         </div>
@@ -68,5 +69,12 @@ img {
   font-size: 1.2rem;
   margin-bottom: 15px;
   line-height: 1.6;
+}
+.justify-content-center h1 {
+  background-color: #007bff;
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 </style>
