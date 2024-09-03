@@ -3,11 +3,15 @@ import Home from '../views/HomeView.vue'
 import RatingView from '@/views/RatingView.vue'
 import LoginView from '@/views/LoginView.vue'
 import signup from '@/views/signup.vue'
+import AdminView from '@/views/AdminView.vue'
+import UserView from '@/views/UserView.vue'
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/rating', name: RatingView, component: RatingView },
   { path: '/login', name: LoginView, component: LoginView },
-  { path: '/signup', name: signup, component: signup }
+  { path: '/signup', name: signup, component: signup },
+  { path: '/admin', name: AdminView, component: AdminView },
+  { path: '/user', name: UserView, component: UserView }
 ]
 
 const router = createRouter({

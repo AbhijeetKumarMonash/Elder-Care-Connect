@@ -46,23 +46,17 @@
 
 <script setup>
 import BHeader from '@/components/BHeader.vue'
-import { ref, watch, onMounted } from 'vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const formData = ref({
-  username: localStorage.getItem('username') || '',
-  password: localStorage.getItem('password') || ''
+  username: '',
+  password: ''
 })
 
 const submittedCards = ref([])
-
-watch(
-  formData,
-  (newData) => {
-    localStorage.setItem('username', newData.username)
-    localStorage.setItem('password', newData.password)
-  },
-  { deep: true }
-)
 
 const submitForm = () => {
   validateName(true)
@@ -75,13 +69,12 @@ const submitForm = () => {
     )
 
     if (user) {
-      console.log('User logged in:', user)
+      localStorage.setItem('currentUser', JSON.stringify(user))
+
       if (user.role === 'admin') {
-        // Redirect to admin page
-        console.log('Redirecting to admin page...')
+        router.push('/admin')
       } else {
-        // Redirect to user page
-        console.log('Redirecting to user page...')
+        router.push('/user')
       }
     } else {
       errors.value.username = 'Invalid username or password'
