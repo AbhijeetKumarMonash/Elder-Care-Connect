@@ -30,7 +30,7 @@
                 type="number"
                 class="form-control"
                 id="age"
-                @blur="() => validateage(true)"
+                @blur="() => validateAge(true)"
                 v-model="formData.age"
               />
               <div v-if="errors.age" class="text-danger">{{ errors.age }}</div>
@@ -43,7 +43,7 @@
                 type="text"
                 class="form-control"
                 id="email"
-                @blur="() => validateemail(true)"
+                @blur="() => validateEmail(true)"
                 v-model="formData.email"
               />
               <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
@@ -56,7 +56,7 @@
                 type="text"
                 class="form-control"
                 id="address"
-                @blur="() => validateaddress(true)"
+                @blur="() => validateAddress(true)"
                 v-model="formData.Address"
               />
               <div v-if="errors.Address" class="text-danger">{{ errors.Address }}</div>
@@ -67,10 +67,10 @@
             <div class="col-12">
               <label for="contactdetails" class="form-label">Contact Details</label>
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 id="contactdetails"
-                @blur="() => validatecontactdetails(true)"
+                @blur="() => validateContactDetails(true)"
                 v-model="formData.contactDetails"
               />
               <div v-if="errors.contactDetails" class="text-danger">
@@ -82,10 +82,10 @@
             <div class="col-12">
               <label for="emergencycontact" class="form-label">Emergency Contact Details</label>
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 id="emergencycontact"
-                @blur="() => validateemergencysontact(true)"
+                @blur="() => validateEmergencyContact(true)"
                 v-model="formData.emergencyContact"
               />
               <div v-if="errors.emergencyContact" class="text-danger">
@@ -188,6 +188,30 @@ const validateEmail = (blur) => {
     if (blur) errors.value.email = 'Please enter a valid email address'
   } else {
     errors.value.email = null
+  }
+}
+
+const validateAddress = (blur) => {
+  if (formData.value.Address.length < 5) {
+    if (blur) errors.value.Address = 'Address must be at least 5 characters long'
+  } else {
+    errors.value.Address = null
+  }
+}
+
+const validateContactDetails = (blur) => {
+  if (formData.value.contactDetails.length < 10) {
+    if (blur) errors.value.contactDetails = 'Please enter a valid contact number'
+  } else {
+    errors.value.contactDetails = null
+  }
+}
+
+const validateEmergencyContact = (blur) => {
+  if (formData.value.emergencyContact.length < 10) {
+    if (blur) errors.value.emergencyContact = 'Please enter a valid emergency contact number'
+  } else {
+    errors.value.emergencyContact = null
   }
 }
 
