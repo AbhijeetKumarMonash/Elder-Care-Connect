@@ -4,6 +4,7 @@
     <div class="container mt-4">
       <div class="row justify-content-center">
         <div class="col-12">
+          <!--https://getbootstrap.com/docs/5.3/components/carousel/-->
           <div id="homeCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
               <button

@@ -1,6 +1,6 @@
 <template>
-  <div class="container mt-5">
-    <header class="d-flex justify-content-between align-items-center py-3">
+  <div class="fixed-top">
+    <header class="d-flex justify-content-between align-items-center py-3 bg-primary">
       <h1 class="logo">Elder Care Connect</h1>
       <ul class="nav nav-pills">
         <li class="nav-item">
@@ -33,14 +33,12 @@ import { useRouter } from 'vue-router'
 
 const currentUser = ref(null)
 
-// Get current user from localStorage if available
 onMounted(() => {
   currentUser.value = JSON.parse(localStorage.getItem('currentUser'))
   console.log('Current User in Header:', currentUser.value)
 })
 const router = useRouter()
 
-// Logout function to clear user session
 const logout = () => {
   localStorage.removeItem('currentUser')
   currentUser.value = null
@@ -49,6 +47,14 @@ const logout = () => {
 </script>
 
 <style scoped>
+.fixed-top {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
+  background-color: #007bff;
+}
+
 header {
   background-color: #007bff;
   color: white;
@@ -60,6 +66,7 @@ h1.logo {
   margin: 0;
   font-size: 1.5rem;
   font-weight: bold;
+  color: white;
 }
 
 .nav-pills .nav-link {
@@ -73,9 +80,5 @@ h1.logo {
 
 .btn-link {
   color: white;
-}
-
-.container {
-  max-width: 1200px;
 }
 </style>
