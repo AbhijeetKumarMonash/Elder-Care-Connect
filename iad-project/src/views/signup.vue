@@ -49,6 +49,50 @@
               <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
             </div>
           </div>
+          <div class="row mb-3 justify-content-center">
+            <div class="col-12">
+              <label for="address" class="form-label">Address</label>
+              <input
+                type="text"
+                class="form-control"
+                id="address"
+                @blur="() => validateaddress(true)"
+                v-model="formData.Address"
+              />
+              <div v-if="errors.Address" class="text-danger">{{ errors.Address }}</div>
+            </div>
+          </div>
+
+          <div class="row mb-3 justify-content-center">
+            <div class="col-12">
+              <label for="contactdetails" class="form-label">Contact Details</label>
+              <input
+                type="text"
+                class="form-control"
+                id="contactdetails"
+                @blur="() => validatecontactdetails(true)"
+                v-model="formData.contactDetails"
+              />
+              <div v-if="errors.contactDetails" class="text-danger">
+                {{ errors.contactDetails }}
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3 justify-content-center">
+            <div class="col-12">
+              <label for="emergencycontact" class="form-label">Emergency Contact Details</label>
+              <input
+                type="text"
+                class="form-control"
+                id="emergencycontact"
+                @blur="() => validateemergencysontact(true)"
+                v-model="formData.emergencyContact"
+              />
+              <div v-if="errors.emergencyContact" class="text-danger">
+                {{ errors.emergencyContact }}
+              </div>
+            </div>
+          </div>
 
           <div class="row mb-3 justify-content-center">
             <div class="col-md-6 col-sm-6">
@@ -94,6 +138,11 @@ import { ref } from 'vue'
 
 const formData = ref({
   username: '',
+  age: '',
+  email: '',
+  Address: '',
+  contactDetails: '',
+  emergencyContact: '',
   password: '',
   confirmPassword: ''
 })
@@ -103,7 +152,8 @@ const submittedCards = ref([])
 const submitForm = () => {
   validateName(true)
   validatePassword(true)
-  if (!errors.value.username && !errors.value.password) {
+  validateConfirmPassword(true)
+  if (!errors.value.username && !errors.value.password && !errors.value.confirmPassword) {
     submittedCards.value.push({ ...formData.value })
     clearForm()
   }
@@ -112,16 +162,24 @@ const submitForm = () => {
 const clearForm = () => {
   formData.value = {
     username: '',
+    age: '',
+    email: '',
+    Address: '',
+    contactDetails: '',
+    emergencyContact: '',
     password: '',
     confirmPassword: ''
   }
 }
 const errors = ref({
   username: null,
-  password: null,
-  confirmPassword: null,
+  age: null,
+  email: null,
   Address: null,
-  contactDetails: null
+  contactDetails: null,
+  emergencyContact: null,
+  password: null,
+  confirmPassword: null
 })
 
 const validateName = (blur) => {
@@ -152,6 +210,14 @@ const validatePassword = (blur) => {
     if (blur) errors.value.password = 'Password must contain at least one special character.'
   } else {
     errors.value.password = null
+  }
+}
+
+const validateConfirmPassword = (blur) => {
+  if (formData.value.password !== formData.value.confirmPassword) {
+    if (blur) errors.value.confirmPassword = 'Passwords do not match.'
+  } else {
+    errors.value.confirmPassword = null
   }
 }
 </script>
