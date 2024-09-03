@@ -74,11 +74,11 @@
 
           <div class="row mb-3 justify-content-center">
             <div class="col-12">
-              <label for="contactdetails" class="form-label">Contact Details</label>
+              <label for="contactDetails" class="form-label">Contact Details</label>
               <input
-                type="number"
+                type="text"
                 class="form-control"
-                id="contactdetails"
+                id="contactDetails"
                 @blur="() => validateContactDetails(true)"
                 v-model="formData.contactDetails"
               />
@@ -89,11 +89,11 @@
           </div>
           <div class="row mb-3 justify-content-center">
             <div class="col-12">
-              <label for="emergencycontact" class="form-label">Emergency Contact Details</label>
+              <label for="emergencyContact" class="form-label">Emergency Contact Details</label>
               <input
-                type="number"
+                type="text"
                 class="form-control"
-                id="emergencycontact"
+                id="emergencyContact"
                 @blur="() => validateEmergencyContact(true)"
                 v-model="formData.emergencyContact"
               />
@@ -223,7 +223,7 @@ const validateAddress = (blur) => {
 }
 
 const validateContactDetails = (blur) => {
-  if (formData.value.contactDetails.length < 10) {
+  if (formData.value.contactDetails.length == 10) {
     if (blur) errors.value.contactDetails = 'Please enter a valid contact number'
   } else {
     errors.value.contactDetails = null
@@ -231,7 +231,7 @@ const validateContactDetails = (blur) => {
 }
 
 const validateEmergencyContact = (blur) => {
-  if (formData.value.emergencyContact.length < 10) {
+  if (formData.value.emergencyContact.length == 10) {
     if (blur) errors.value.emergencyContact = 'Please enter a valid emergency contact number'
   } else {
     errors.value.emergencyContact = null

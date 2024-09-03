@@ -39,6 +39,10 @@
             <button type="button" class="btn btn-secondary" @click="clearForm">Clear</button>
           </div>
         </form>
+        <div class="text-center mt-3">
+          <p>Don't have an account?</p>
+          <button @click="redirectToSignup" class="btn btn-link">Sign Up</button>
+        </div>
       </div>
     </div>
   </div>
@@ -123,6 +127,9 @@ const validatePassword = (blur) => {
   } else {
     errors.value.password = null
   }
+}
+const redirectToSignup = () => {
+  router.push('/signup')
 }
 </script>
 
