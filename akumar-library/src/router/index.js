@@ -5,6 +5,8 @@ import LoginView from '../views/LoginView.vue'
 import AccessDenied from '../views/AccessDeniedView.vue'
 import FirebaseSigninView from '@/views/FirebaseSigninView.vue'
 import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
+import Dashboard from '@/views/Dashboard.vue'
+import logout from '@/views/logout.vue'
 
 const routes = [
   {
@@ -36,7 +38,17 @@ const routes = [
   {
     path: '/FireRegister',
     name: 'FireRegister',
-    component:FirebaseRegisterView
+    component: FirebaseRegisterView
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Dashboard
+  },
+  {
+    path: '/logout',
+    name: 'logout',
+    component: logout
   }
 ]
 
@@ -47,7 +59,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const isAuthenticated = localStorage.getItem('isAuthenticated')
-  if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
+  if (to.matched.some((record) => record.meta.requiresAuth) && !isAuthenticated) {
     next('/access-denied')
   } else {
     next()
