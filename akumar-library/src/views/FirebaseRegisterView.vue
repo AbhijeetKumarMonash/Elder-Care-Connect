@@ -1,16 +1,18 @@
 <template>
   <div class="container mt-5">
     <div class="center-content">
-      <h1>Create an Account</h1>
-      <form @submit.prevent="handleLogin">
-        <div class="mb-3">
-          <p><input type="text" placeholder="Email" v-model="email" /></p>
-        </div>
-        <div class="mb-3">
-          <p><input type="password" placeholder="Password" v-model="password" /></p>
-        </div>
-        <p><button @click="register">Save to Firebase</button></p>
-      </form>
+      <div class="row">
+        <h1>Create an Account</h1>
+        <form @submit.prevent="handleLogin">
+          <div class="mb-3">
+            <p><input type="text" placeholder="Email" v-model="email" /></p>
+          </div>
+          <div class="mb-3">
+            <p><input type="password" placeholder="Password" v-model="password" /></p>
+          </div>
+          <p><button @click="register">Save to Firebase</button></p>
+        </form>
+      </div>
     </div>
   </div>
 </template>
