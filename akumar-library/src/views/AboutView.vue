@@ -1,7 +1,10 @@
 <template>
   <div class="center-content">
     <h1>About Our Library</h1>
-    <p>Welcome to our digital library! We're dedicated to providing a vast collection of books and resources to our community.</p>
+    <p>
+      Welcome to our digital library! We're dedicated to providing a vast collection of books and
+      resources to our community.
+    </p>
   </div>
 </template>
 
@@ -9,6 +12,4 @@
 // No script needed for now
 </script>
 
-<style>
-
-</style>
+<style></style>
