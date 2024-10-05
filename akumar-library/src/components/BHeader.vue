@@ -12,6 +12,11 @@
           <router-link to="/addbook" class="nav-link" active-class="active">Add Book</router-link>
         </li>
         <li class="nav-item">
+          <router-link to="/GetBookCount" class="nav-link" active-class="active"
+            >Get Book Count</router-link
+          >
+        </li>
+        <li class="nav-item">
           <router-link to="/FireLogin" class="nav-link" active-class="active"
             >FireBase Login</router-link
           >
