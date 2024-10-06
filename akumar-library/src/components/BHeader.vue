@@ -17,6 +17,16 @@
           >
         </li>
         <li class="nav-item">
+          <router-link to="/WeatherCheck" class="nav-link" active-class="active"
+            >Get Weather</router-link
+          >
+        </li>
+        <li class="nav-item">
+          <router-link to="/CountBookAPI" class="nav-link" active-class="active"
+            >Count Book API</router-link
+          >
+        </li>
+        <li class="nav-item">
           <router-link to="/FireLogin" class="nav-link" active-class="active"
             >FireBase Login</router-link
           >
