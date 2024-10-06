@@ -9,9 +9,8 @@ admin.initializeApp()
 exports.capitalizeBookData = onDocumentCreated('books/{bookId}', (event) => {
   const bookData = event.data.data() // Get the book data
   const capitalizedData = {
-    title: bookData.title.toUpperCase(),
-    author: bookData.author.toUpperCase(),
-    genre: bookData.genre.toUpperCase()
+    name: bookData.name.toUpperCase(), // Update to capitalize 'name'
+    isbn: bookData.isbn // Keep ISBN unchanged
   }
 
   // Update the document with the capitalized data
