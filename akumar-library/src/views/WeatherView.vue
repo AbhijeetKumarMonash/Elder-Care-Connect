@@ -5,7 +5,7 @@
     </div>
     <div class="search-bar">
       <input type="text" v-model="city" placeholder="Enter city name" class="search-input" />
-      <button @click="fetchCurrentLocationWeather" class="search-button">Get Weather</button>
+      <button @click="searchByCity" class="search-button">Get Weather</button>
     </div>
     <main>
       <div v-if="weatherData">
@@ -40,6 +40,10 @@ export default {
     }
   },
   methods: {
+    async searchByCity() {
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${apikey}`
+      await this.fetchWeatherData(url)
+    },
     async fetchCurrentLocationWeather() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async (position) => {
