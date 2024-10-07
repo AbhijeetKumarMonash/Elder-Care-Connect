@@ -30,17 +30,34 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { auth, db } from '@/firebase/init'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { doc, getDoc } from 'firebase/firestore'
 
+const router = useRouter()
 const currentUser = ref(null)
 
 onMounted(() => {
-  currentUser.value = JSON.parse(localStorage.getItem('currentUser'))
-  console.log('Current User in Header:', currentUser.value)
-})
-const router = useRouter()
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      // User is signed in, fetch user info from Firestore
+      const docRef = doc(db, 'users', user.uid)
+      const docSnap = await getDoc(docRef)
 
-const logout = () => {
-  localStorage.removeItem('currentUser')
+      if (docSnap.exists()) {
+        currentUser.value = docSnap.data()
+        console.log('Current User in Header:', currentUser.value)
+      } else {
+        console.error('No such document!')
+      }
+    } else {
+      currentUser.value = null
+    }
+  })
+})
+
+const logout = async () => {
+  await signOut(auth)
   currentUser.value = null
   router.push('/login')
 }
