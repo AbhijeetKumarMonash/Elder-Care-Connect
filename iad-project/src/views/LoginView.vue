@@ -7,16 +7,15 @@
         <form @submit.prevent="submitForm">
           <div class="row mb-3 justify-content-center">
             <div class="col-12">
-              <label for="username" class="form-label">Username</label>
+              <label for="email" class="form-label">Email</label>
               <input
-                type="text"
+                type="email"
                 class="form-control"
-                id="username"
-                @blur="() => validateName(true)"
-                @input="() => validateName(false)"
-                v-model="formData.username"
+                id="email"
+                v-model="formData.email"
+                required
               />
-              <div v-if="errors.username" class="text-danger">{{ errors.username }}</div>
+              <div v-if="errors.email" class="text-danger">{{ errors.email }}</div>
             </div>
           </div>
           <div class="row mb-3 justify-content-center">
@@ -26,9 +25,8 @@
                 type="password"
                 class="form-control"
                 id="password"
-                @blur="() => validatePassword(true)"
-                @input="() => validatePassword(false)"
                 v-model="formData.password"
+                required
               />
               <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
             </div>
@@ -51,79 +49,63 @@
 import BHeader from '@/components/BHeader.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { auth, db } from '@/firebase/init'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { doc, getDoc } from 'firebase/firestore'
 
 const router = useRouter()
 
 const formData = ref({
-  username: '',
+  email: '',
   password: ''
 })
+const errors = ref({
+  email: null,
+  password: null
+})
 
-const submittedCards = ref([])
-
-const submitForm = () => {
-  validateName(true)
-  validatePassword(true)
-  if (!errors.value.username && !errors.value.password) {
-    const users = JSON.parse(localStorage.getItem('users')) || []
-    const user = users.find(
-      (u) => u.username === formData.value.username && u.password === formData.value.password
+const clearErrors = () => {
+  errors.value = {
+    email: null,
+    password: null
+  }
+}
+const submitForm = async () => {
+  clearErrors()
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      formData.value.email,
+      formData.value.password
     )
+    const user = userCredential.user
 
-    if (user) {
-      localStorage.setItem('currentUser', JSON.stringify(user))
+    const docRef = doc(db, 'users', user.uid)
+    const docSnap = await getDoc(docRef)
 
-      if (user.role === 'admin') {
+    if (docSnap.exists()) {
+      const userData = docSnap.data()
+      if (userData.role === 'admin') {
         router.push('/admin')
       } else {
         router.push('/user')
       }
     } else {
-      errors.value.username = 'Invalid username or password'
-      errors.value.password = 'Invalid username or password'
+      console.error('No user data found!')
+    }
+  } catch (error) {
+    console.error('Error logging in: ', error)
+    if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+      errors.value.email = 'Invalid email or password'
+      errors.value.password = 'Invalid email or password'
     }
   }
 }
 
 const clearForm = () => {
   formData.value = {
-    username: '',
+    email: '',
     password: ''
-  }
-}
-const errors = ref({
-  username: null,
-  password: null
-})
-
-const validateName = (blur) => {
-  if (formData.value.username.length < 3) {
-    if (blur) errors.value.username = 'Name must be at least 3 characters'
-  } else {
-    errors.value.username = null
-  }
-}
-
-const validatePassword = (blur) => {
-  const password = formData.value.password
-  const minLength = 8
-  const hasUppercase = /[A-Z]/.test(password)
-  const hasLowercase = /[a-z]/.test(password)
-  const hasNumber = /\d/.test(password)
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password)
-
-  if (password.length < minLength) {
-    if (blur) errors.value.password = `Password must be at least ${minLength} characters long.`
-  } else if (!hasUppercase) {
-    if (blur) errors.value.password = 'Password must contain at least one uppercase letter.'
-  } else if (!hasLowercase) {
-    if (blur) errors.value.password = 'Password must contain at least one lowercase letter.'
-  } else if (!hasNumber) {
-    if (blur) errors.value.password = 'Password must contain at least one number.'
-  } else if (!hasSpecialChar) {
-    if (blur) errors.value.password = 'Password must contain at least one special character.'
-  } else {
-    errors.value.password = null
   }
 }
 const redirectToSignup = () => {
