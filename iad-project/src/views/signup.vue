@@ -143,6 +143,9 @@
 import BHeader from '@/components/BHeader.vue'
 
 import { ref } from 'vue'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
+import { auth, db } from '@/firebase/init'
 
 const formData = ref({
   role: 'user',
@@ -155,10 +158,18 @@ const formData = ref({
   password: '',
   confirmPassword: ''
 })
+const errors = ref({
+  username: null,
+  age: null,
+  email: null,
+  Address: null,
+  contactDetails: null,
+  emergencyContact: null,
+  password: null,
+  confirmPassword: null
+})
 
-const submittedCards = ref([])
-
-const submitForm = () => {
+const submitForm = async () => {
   validateName(true)
   validateAge(true)
   validateEmail(true)
@@ -177,21 +188,31 @@ const submitForm = () => {
     !errors.value.password &&
     !errors.value.confirmPassword
   ) {
-    const users = JSON.parse(localStorage.getItem('users')) || []
-    users.push({
-      role: formData.value.role,
-      username: formData.value.username,
-      age: formData.value.age,
-      email: formData.value.email,
-      Address: formData.value.Address,
-      contactDetails: formData.value.contactDetails,
-      emergencyContact: formData.value.emergencyContact,
-      password: formData.value.password
-    })
-    localStorage.setItem('users', JSON.stringify(users))
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.value.email,
+        formData.value.password
+      )
 
-    console.log('User registered:', formData.value)
-    clearForm()
+      const user = userCredential.user
+
+      // Store additional information in Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        role: formData.value.role,
+        username: formData.value.username,
+        age: formData.value.age,
+        Address: formData.value.Address,
+        contactDetails: formData.value.contactDetails,
+        emergencyContact: formData.value.emergencyContact,
+        email: formData.value.email
+      })
+
+      console.log('User registered and data stored in Firestore:', formData.value)
+      clearForm()
+    } catch (error) {
+      console.error('Error creating user:', error.message)
+    }
   }
 }
 
@@ -259,16 +280,6 @@ const clearForm = () => {
     confirmPassword: null
   }
 }
-const errors = ref({
-  username: null,
-  age: null,
-  email: null,
-  Address: null,
-  contactDetails: null,
-  emergencyContact: null,
-  password: null,
-  confirmPassword: null
-})
 
 const validateName = (blur) => {
   const invalidChars = /['"%;()<>\\]/
