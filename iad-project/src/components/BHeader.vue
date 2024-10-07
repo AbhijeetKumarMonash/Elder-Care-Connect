@@ -11,6 +11,16 @@
         <li class="nav-item">
           <router-link to="/rating" class="nav-link" active-class="active">Rating</router-link>
         </li>
+        <li v-if="currentUser && currentUser.role === 'admin'" class="nav-item">
+          <router-link to="/admin" class="nav-link" active-class="active"
+            >Admin Dashboard</router-link
+          >
+        </li>
+        <li v-if="currentUser && currentUser.role === 'user'" class="nav-item">
+          <router-link to="/user" class="nav-link" active-class="active"
+            >User Dashboard</router-link
+          >
+        </li>
         <li v-if="currentUser" class="nav-item">
           <router-link to="/account" class="nav-link" active-class="active"
             >Account Information</router-link

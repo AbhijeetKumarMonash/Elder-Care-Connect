@@ -5,9 +5,6 @@
       <div class="col-xl-4 col-lg-6 col-md-8 col-sm-10">
         <h3 class="text-center">Admin Dashboard</h3>
         <p class="text-center">Welcome, Admin! You have access to manage the application.</p>
-        <div class="text-center">
-          <button @click="logout" class="btn btn-danger">Logout</button>
-        </div>
       </div>
     </div>
   </div>
@@ -17,11 +14,6 @@ import BHeader from '@/components/BHeader.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
-const logout = () => {
-  localStorage.removeItem('currentUser')
-  router.push('/login')
-}
 </script>
 <style scoped>
 .justify-content-center p {
