@@ -6,7 +6,10 @@ import signup from '@/views/signup.vue'
 import AdminView from '@/views/AdminView.vue'
 import UserView from '@/views/UserView.vue'
 import AccountView from '@/views/AccountView.vue'
+import sendEmailView from '@/views/sendEmailView.vue'
+
 const routes = [
+  { path: '/send-email', name: 'sendEmailView', component: sendEmailView },
   { path: '/', name: 'Home', component: Home },
   { path: '/rating', name: RatingView, component: RatingView },
   { path: '/login', name: LoginView, component: LoginView },

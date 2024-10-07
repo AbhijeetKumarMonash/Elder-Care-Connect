@@ -11,9 +11,6 @@
 </template>
 <script setup>
 import BHeader from '@/components/BHeader.vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 </script>
 <style scoped>
 .justify-content-center p {

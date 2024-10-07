@@ -8,6 +8,7 @@
             >About Us</router-link
           >
         </li>
+
         <li class="nav-item">
           <router-link to="/rating" class="nav-link" active-class="active">Rating</router-link>
         </li>
@@ -25,6 +26,11 @@
           <router-link to="/account" class="nav-link" active-class="active"
             >Account Information</router-link
           >
+        </li>
+        <li v-if="currentUser" class="nav-item">
+          <router-link to="/send-email" class="nav-link" active-class="active">
+            Send Email
+          </router-link>
         </li>
         <li v-if="currentUser" class="nav-item">
           <button @click="logout" class="btn btn-link nav-link">Logout</button>
