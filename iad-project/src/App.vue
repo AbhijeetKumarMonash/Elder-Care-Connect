@@ -1,8 +1,7 @@
 <template>
   <div class="main-container">
-    <header>
-      <BHeader />
-    </header>
+    <BHeader />
+    <header></header>
     <main class="main-box">
       <router-view></router-view>
     </main>

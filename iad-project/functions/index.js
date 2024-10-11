@@ -1,18 +1,64 @@
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
-const {sendEmail} = require("./sendEmail");
+const functions = require('firebase-functions')
+const nodemailer = require('nodemailer')
+const cors = require('cors')({ origin: true })
+const admin = require('firebase-admin')
+admin.initializeApp()
 
-// HTTP Trigger to send email
-exports.sendEmail = onRequest((request, response) => {
-  logger.info("Sending email...", {structuredData: true});
+// Configure SMTP settings for Nodemailer (using Gmail SMTP)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'abhijeet007abhi@gmail.com', // Your Gmail account
+    pass: 'wcoq jfil qvzh nfad' // Your Gmail password or app-specific password
+  }
+})
 
-  // Call the sendEmail function and handle the response
-  sendEmail(request, response)
-      .then((result) => {
-        response.status(200).send(result);
+// Cloud Function to send email
+exports.sendEmail = functions.https.onRequest((req, res) => {
+  // Handle CORS preflight request (OPTIONS)
+  cors(req, res, async () => {
+    if (req.method === 'OPTIONS') {
+      res.set('Access-Control-Allow-Origin', '*')
+      res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+      res.set('Access-Control-Allow-Headers', 'Content-Type')
+      res.set('Access-Control-Max-Age', '3600')
+      return res.status(204).send('')
+    }
+    try {
+      const { to, subject, text, html, attachment } = req.body
+
+      // Email options
+      const mailOptions = {
+        from: 'abhijeet007abhi@gmail.com', // Sender address
+        to: to, // List of recipients
+        subject: subject, // Subject line
+        text: text, // Plain text body
+        html: html // HTML body
+      }
+
+      // Add attachment if available
+      if (attachment) {
+        mailOptions.attachments = [
+          {
+            filename: attachment.filename,
+            content: attachment.content,
+            encoding: 'base64' // Ensure the attachment is base64 encoded
+          }
+        ]
+      }
+
+      // Send email via Nodemailer
+      await transporter.sendMail(mailOptions)
+
+      res.set('Access-Control-Allow-Origin', '*')
+      res.status(200).send({ success: true, message: 'Email sent successfully!' })
+    } catch (error) {
+      res.set('Access-Control-Allow-Origin', '*')
+      res.status(500).send({
+        success: false,
+        message: 'Failed to send email',
+        error: error.message
       })
-      .catch((error) => {
-        logger.error("Error sending email", error);
-        response.status(500).send("Email sending failed");
-      });
-});
+    }
+  })
+})

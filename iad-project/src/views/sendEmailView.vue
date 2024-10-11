@@ -32,8 +32,9 @@
 </template>
 
 <script setup>
-import axios from 'axios'
 import { ref } from 'vue'
+import axios from 'axios'
+import BHeader from '@/components/BHeader.vue'
 
 const emailData = ref({
   to: '',
@@ -51,8 +52,7 @@ const onFileChange = (e) => {
   reader.onload = (event) => {
     emailData.value.attachment = {
       filename: file.name,
-      content: event.target.result.split(',')[1], // Base64 content
-      type: file.type
+      content: event.target.result.split(',')[1] // Base64 encoded file content
     }
   }
   reader.readAsDataURL(file)
@@ -69,39 +69,11 @@ const submitEmail = async () => {
         }
       }
     )
-
     responseMessage.value = response.data.message
     success.value = response.data.success
   } catch (error) {
-    responseMessage.value = error.response?.data?.message || 'Failed to send email.'
+    responseMessage.value = 'Failed to send email.'
     success.value = false
   }
 }
 </script>
-
-<style scoped>
-.container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: white;
-  border-radius: 10px;
-}
-
-h3 {
-  margin-bottom: 20px;
-}
-
-.form-label {
-  font-size: 1.1rem;
-}
-
-textarea {
-  min-height: 100px;
-}
-
-.alert {
-  text-align: center;
-}
-</style>
