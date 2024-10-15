@@ -7,8 +7,10 @@ import AdminView from '@/views/AdminView.vue'
 import UserView from '@/views/UserView.vue'
 import AccountView from '@/views/AccountView.vue'
 import sendEmailView from '@/views/sendEmailView.vue'
+import patientView from '@/views/patientView.vue'
 
 const routes = [
+  { path: '/patient', name: 'patientView', component: patientView },
   { path: '/send-email', name: 'sendEmailView', component: sendEmailView },
   { path: '/', name: 'Home', component: Home },
   { path: '/rating', name: RatingView, component: RatingView },

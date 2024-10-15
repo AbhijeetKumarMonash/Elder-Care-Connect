@@ -28,6 +28,11 @@
           >
         </li>
         <li v-if="currentUser" class="nav-item">
+          <router-link to="/patient" class="nav-link" active-class="active"
+            >Patient Table</router-link
+          >
+        </li>
+        <li v-if="currentUser" class="nav-item">
           <router-link to="/send-email" class="nav-link" active-class="active">
             Send Email
           </router-link>
@@ -68,6 +73,7 @@ onMounted(() => {
       }
     } else {
       currentUser.value = null
+      console.log('No user signed in')
     }
   })
 })
