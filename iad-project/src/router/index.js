@@ -12,7 +12,9 @@ import EventTableView from '@/views/EventTableView.vue'
 import mapView from '@/views/mapView.vue'
 import addPatientView from '@/views/addPatientView.vue'
 import Interactivechart from '@/views/InteractiveChart.vue'
+import GenerateApiKey from '@/views/GenerateApiKey.vue'
 const routes = [
+  { path: '/generateapikey', name: 'Generate Api Key', component: GenerateApiKey },
   { path: '/interactivechart', name: 'Interactivechart', component: Interactivechart },
   { path: '/add-patient', name: 'addPatientView', component: addPatientView },
   { path: '/map', name: 'mapView', component: mapView },

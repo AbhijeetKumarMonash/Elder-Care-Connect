@@ -12,6 +12,11 @@
         <li class="nav-item">
           <router-link to="/rating" class="nav-link" active-class="active">Rating</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/generateapikey" class="nav-link" active-class="active"
+            >ECC API</router-link
+          >
+        </li>
         <li v-if="currentUser && currentUser.role === 'admin'" class="nav-item">
           <router-link to="/admin" class="nav-link" active-class="active"
             >Admin Dashboard</router-link
