@@ -1,14 +1,13 @@
 <template>
-  <div class="fixed-top">
-    <header class="d-flex justify-content-between align-items-center py-3 bg-primary">
-      <h1 class="logo">Elder Care Connect</h1>
+  <div class="fixed-top bg-primary">
+    <header class="d-flex justify-content-between align-items-center p-3">
+      <h1 class="logo mb-0">Elder Care Connect</h1>
       <ul class="nav nav-pills">
         <li class="nav-item">
-          <router-link to="/" class="nav-link" active-class="active" aria-current="page"
-            >About Us</router-link
-          >
+          <router-link to="/" class="nav-link" active-class="active" aria-current="page">
+            About Us
+          </router-link>
         </li>
-
         <li class="nav-item">
           <router-link to="/rating" class="nav-link" active-class="active">Rating</router-link>
         </li>
@@ -22,11 +21,10 @@
             >Admin Dashboard</router-link
           >
         </li>
-
         <li v-if="currentUser && currentUser.role === 'admin'" class="nav-item">
-          <router-link to="/add-patient" class="nav-link" active-class="active">
-            Add New Patient
-          </router-link>
+          <router-link to="/add-patient" class="nav-link" active-class="active"
+            >Add New Patient</router-link
+          >
         </li>
         <li v-if="currentUser && currentUser.role === 'user'" class="nav-item">
           <router-link to="/user" class="nav-link" active-class="active"
@@ -46,7 +44,6 @@
             >Patient Table</router-link
           >
         </li>
-
         <li v-if="currentUser" class="nav-item">
           <router-link to="/events" class="nav-link" active-class="active">Event Table</router-link>
         </li>
@@ -56,15 +53,15 @@
           >
         </li>
         <li v-if="currentUser" class="nav-item">
-          <router-link to="/map" class="nav-link" active-class="active"> Map </router-link>
+          <router-link to="/map" class="nav-link" active-class="active">Map</router-link>
         </li>
         <li v-if="currentUser" class="nav-item">
-          <router-link to="/send-email" class="nav-link" active-class="active">
-            Send Email
-          </router-link>
+          <router-link to="/send-email" class="nav-link" active-class="active"
+            >Send Email</router-link
+          >
         </li>
         <li v-if="currentUser" class="nav-item">
-          <button @click="logout" class="btn btn-link nav-link">Logout</button>
+          <button @click="logout" class="btn btn-link nav-link text-light">Logout</button>
         </li>
         <li v-else class="nav-item">
           <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
@@ -113,7 +110,6 @@ const logout = async () => {
 
 <style scoped>
 .fixed-top {
-  position: fixed;
   top: 0;
   width: 100%;
   z-index: 1030;
@@ -124,26 +120,35 @@ header {
   background-color: #0056b3;
   color: white;
   padding: 10px 20px;
-  border-radius: 5px;
 }
 
 h1.logo {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: bold;
   color: white;
 }
 
 .nav-pills .nav-link {
   color: #e6f2ff;
+  font-weight: 500;
+  margin-left: 10px;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.nav-pills .nav-link:hover {
+  color: #ffffff;
 }
 
 .nav-pills .nav-link.active {
   background-color: white;
   color: #0056b3;
+  border-radius: 5px;
 }
 
 .btn-link {
-  color: white;
+  color: #e6f2ff;
 }
 </style>

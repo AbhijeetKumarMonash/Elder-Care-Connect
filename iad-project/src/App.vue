@@ -84,7 +84,7 @@ body {
 
 main {
   flex: 1;
-  padding-bottom: 80px; /* Ensures content doesn't overlap with the footer */
+  padding-bottom: 80px;
 }
 
 footer {
