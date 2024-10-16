@@ -117,11 +117,11 @@ const logout = async () => {
   top: 0;
   width: 100%;
   z-index: 1030;
-  background-color: #007bff;
+  background-color: #0056b3;
 }
 
 header {
-  background-color: #007bff;
+  background-color: #0056b3;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
@@ -135,12 +135,12 @@ h1.logo {
 }
 
 .nav-pills .nav-link {
-  color: white;
+  color: #e6f2ff;
 }
 
 .nav-pills .nav-link.active {
   background-color: white;
-  color: #007bff;
+  color: #0056b3;
 }
 
 .btn-link {

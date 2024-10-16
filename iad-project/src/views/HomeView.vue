@@ -97,7 +97,7 @@ export default {
   object-fit: cover;
 }
 .about-us-section {
-  background-color: #007bff;
+  background-color: #0056b3;
   color: white;
   padding: 30px;
   border-radius: 10px;
