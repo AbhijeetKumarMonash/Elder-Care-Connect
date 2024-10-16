@@ -17,6 +17,11 @@
             >Admin Dashboard</router-link
           >
         </li>
+        <li v-if="currentUser && currentUser.role === 'admin'" class="nav-item">
+          <router-link to="/add-patient" class="nav-link" active-class="active">
+            Add New Patient
+          </router-link>
+        </li>
         <li v-if="currentUser && currentUser.role === 'user'" class="nav-item">
           <router-link to="/user" class="nav-link" active-class="active"
             >User Dashboard</router-link

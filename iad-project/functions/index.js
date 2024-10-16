@@ -1,64 +1,61 @@
-const functions = require('firebase-functions')
-const nodemailer = require('nodemailer')
-const cors = require('cors')({ origin: true })
+const { onRequest } = require('firebase-functions/v2/https')
 const admin = require('firebase-admin')
+const cors = require('cors')({ origin: true })
+
 admin.initializeApp()
 
-// Configure SMTP settings for Nodemailer (using Gmail SMTP)
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'abhijeet007abhi@gmail.com', // Your Gmail account
-    pass: 'wcoq jfil qvzh nfad' // Your Gmail password or app-specific password
-  }
+// Cloud Function to add a new patient document
+exports.addPatient = onRequest((req, res) => {
+  cors(req, res, async () => {
+    try {
+      // Extract patient data from the request body
+      const { name, careProvider, insuranceProvider, country, age, phone, occupation } = req.body
+
+      // Check if all fields are present
+      if (
+        !name ||
+        !careProvider ||
+        !insuranceProvider ||
+        !country ||
+        !age ||
+        !phone ||
+        !occupation
+      ) {
+        res.status(400).send('Missing patient data fields')
+        return
+      }
+
+      // Add the new patient document to Firestore
+      const newPatientRef = await admin.firestore().collection('patients').add({
+        name,
+        careProvider,
+        insuranceProvider,
+        country,
+        age,
+        phone,
+        occupation
+      })
+
+      res.status(200).send({ success: true, message: `Patient added with ID: ${newPatientRef.id}` })
+    } catch (error) {
+      console.error('Error adding patient document:', error.message)
+      res.status(500).send({ success: false, error: error.message })
+    }
+  })
 })
 
-// Cloud Function to send email
-exports.sendEmail = functions.https.onRequest((req, res) => {
-  // Handle CORS preflight request (OPTIONS)
+// Cloud Function to count the total number of patients
+exports.countPatients = onRequest((req, res) => {
   cors(req, res, async () => {
-    if (req.method === 'OPTIONS') {
-      res.set('Access-Control-Allow-Origin', '*')
-      res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-      res.set('Access-Control-Allow-Headers', 'Content-Type')
-      res.set('Access-Control-Max-Age', '3600')
-      return res.status(204).send('')
-    }
     try {
-      const { to, subject, text, html, attachment } = req.body
+      const patientsCollection = admin.firestore().collection('patients')
+      const snapshot = await patientsCollection.get()
+      const count = snapshot.size
 
-      // Email options
-      const mailOptions = {
-        from: 'abhijeet007abhi@gmail.com', // Sender address
-        to: to, // List of recipients
-        subject: subject, // Subject line
-        text: text, // Plain text body
-        html: html // HTML body
-      }
-
-      // Add attachment if available
-      if (attachment) {
-        mailOptions.attachments = [
-          {
-            filename: attachment.filename,
-            content: attachment.content,
-            encoding: 'base64' // Ensure the attachment is base64 encoded
-          }
-        ]
-      }
-
-      // Send email via Nodemailer
-      await transporter.sendMail(mailOptions)
-
-      res.set('Access-Control-Allow-Origin', '*')
-      res.status(200).send({ success: true, message: 'Email sent successfully!' })
+      res.status(200).send({ count })
     } catch (error) {
-      res.set('Access-Control-Allow-Origin', '*')
-      res.status(500).send({
-        success: false,
-        message: 'Failed to send email',
-        error: error.message
-      })
+      console.error('Error counting patients:', error.message)
+      res.status(500).send('Error counting patients')
     }
   })
 })
