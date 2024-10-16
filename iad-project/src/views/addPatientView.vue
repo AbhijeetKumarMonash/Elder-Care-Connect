@@ -64,6 +64,7 @@ export default {
       phone: '',
       occupation: ''
     })
+    const patients = ref([])
 
     const patientCount = ref(0)
 
@@ -73,7 +74,7 @@ export default {
           'https://addpatient-mmuxaelp3q-uc.a.run.app',
           patient.value
         )
-        patients.push({ ...patient.value })
+        patients.value.push({ ...patient.value })
         alert('Patient added successfully!')
       } catch (error) {
         console.error('Error adding patient:', error.message)
@@ -92,6 +93,7 @@ export default {
 
     return {
       patient,
+      patients,
       addPatient,
       getPatientCount,
       patientCount
