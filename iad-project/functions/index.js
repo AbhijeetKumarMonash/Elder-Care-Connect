@@ -176,3 +176,34 @@ const apiKeyAuth = (req, res, next) => {
       res.status(500).json({ message: 'Internal Server Error' })
     })
 }
+
+exports.getAdminDashboardData = onRequest((req, res) => {
+  cors(req, res, async () => {
+    try {
+      const usersCollection = db.collection('users')
+      const snapshot = await usersCollection.get()
+      const totalUsers = snapshot.size
+
+      let adminCount = 0
+      let userCount = 0
+
+      snapshot.forEach((doc) => {
+        const userData = doc.data()
+        if (userData.role === 'admin') {
+          adminCount++
+        } else if (userData.role === 'user') {
+          userCount++
+        }
+      })
+
+      res.status(200).send({
+        totalUsers,
+        adminCount,
+        userCount
+      })
+    } catch (error) {
+      console.error('Error fetching users:', error)
+      res.status(500).send('Error fetching users')
+    }
+  })
+})
