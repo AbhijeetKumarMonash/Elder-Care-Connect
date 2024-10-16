@@ -33,6 +33,12 @@
           >
         </li>
         <li v-if="currentUser" class="nav-item">
+          <router-link to="/events" class="nav-link" active-class="active">Event Table</router-link>
+        </li>
+        <li v-if="currentUser" class="nav-item">
+          <router-link to="/map" class="nav-link" active-class="active"> Map </router-link>
+        </li>
+        <li v-if="currentUser" class="nav-item">
           <router-link to="/send-email" class="nav-link" active-class="active">
             Send Email
           </router-link>

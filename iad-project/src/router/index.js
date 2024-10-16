@@ -8,8 +8,15 @@ import UserView from '@/views/UserView.vue'
 import AccountView from '@/views/AccountView.vue'
 import sendEmailView from '@/views/sendEmailView.vue'
 import patientView from '@/views/patientView.vue'
-
+import EventTableView from '@/views/EventTableView.vue'
+import mapView from '@/views/mapView.vue'
 const routes = [
+  { path: '/map', name: 'mapView', component: mapView },
+  {
+    path: '/events',
+    name: 'EventTable',
+    component: EventTableView
+  },
   { path: '/patient', name: 'patientView', component: patientView },
   { path: '/send-email', name: 'sendEmailView', component: sendEmailView },
   { path: '/', name: 'Home', component: Home },
