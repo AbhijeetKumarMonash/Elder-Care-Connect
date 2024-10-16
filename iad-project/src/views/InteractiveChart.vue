@@ -1,20 +1,62 @@
 <template>
   <div class="container mt-5">
     <BHeader />
-    <h2>Interactive Patient Data Chart</h2>
-    <!-- Display loading message while fetching the data -->
-    <div v-if="isLoading">Loading chart...</div>
+    <h2 class="text-center">Interactive Patient Data Charts</h2>
 
-    <!-- Render the chart when loading is complete -->
+    <!-- Dropdown for Chart Selection -->
+    <div class="form-group text-center">
+      <label for="chartSelection">Select Chart to Display:</label>
+      <select v-model="selectedChart" class="form-control" id="chartSelection">
+        <option value="ageDistribution">Patient Age Distribution (Bar Chart)</option>
+        <option value="countOverTime">Patient Count Over Time (Line Chart)</option>
+        <option value="countryDistribution">Patient Country Distribution (Pie Chart)</option>
+      </select>
+    </div>
+
+    <!-- Show Loading Text -->
+    <div v-if="isLoading" class="text-center">Loading chart...</div>
+
+    <!-- Conditionally Render Charts -->
     <div v-else>
-      <apexchart type="pie" :options="chartOptions" :series="chartData" width="500"></apexchart>
+      <!-- Bar Chart: Age Distribution -->
+      <div v-if="selectedChart === 'ageDistribution'">
+        <h3>Patient Age Distribution</h3>
+        <apexchart
+          type="bar"
+          :options="ageChartOptions"
+          :series="ageChartData"
+          width="600"
+        ></apexchart>
+      </div>
+
+      <!-- Line Chart: Count Over Time -->
+      <div v-if="selectedChart === 'countOverTime'">
+        <h3>Patient Count Over Time</h3>
+        <apexchart
+          type="line"
+          :options="countChartOptions"
+          :series="countChartData"
+          width="600"
+        ></apexchart>
+      </div>
+
+      <!-- Pie Chart: Country Distribution -->
+      <div v-if="selectedChart === 'countryDistribution'">
+        <h3>Patient Country Distribution</h3>
+        <apexchart
+          type="pie"
+          :options="countryChartOptions"
+          :series="countryChartData"
+          width="600"
+        ></apexchart>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue'
-import { db } from '@/firebase/init' // Firestore initialization file
+import { db } from '@/firebase/init'
 import { collection, getDocs } from 'firebase/firestore'
 import ApexCharts from 'vue3-apexcharts'
 import BHeader from '@/components/BHeader.vue'
@@ -25,65 +67,137 @@ export default {
     apexchart: ApexCharts
   },
   setup() {
-    const isLoading = ref(true) // Manage loading state
-    const patientData = ref([]) // Store patient data
-    const chartData = ref([]) // Data for chart
-    const chartOptions = ref({}) // Options for chart
+    const isLoading = ref(true)
+    const selectedChart = ref('ageDistribution')
+    const patientData = ref([])
 
-    // Fetch patient data from Firestore
+    // Data for all charts
+    const ageChartData = ref([])
+    const countChartData = ref([])
+    const countryChartData = ref([])
+
+    // Options for all charts
+    const ageChartOptions = ref({})
+    const countChartOptions = ref({})
+    const countryChartOptions = ref({})
+
     const fetchPatientData = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'patients'))
-        patientData.value = querySnapshot.docs.map((doc) => doc.data())
+        patientData.value = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          createdAt: doc.data().createdAt ? doc.data().createdAt.toDate() : new Date()
+        }))
       } catch (error) {
         console.error('Error fetching patient data:', error)
       }
     }
 
-    // Set up the chart after loading data
-    const setupChart = () => {
-      // Group patients by country
-      const countryCount = patientData.value.reduce((acc, patient) => {
+    // Setup Age Distribution Chart (Bar)
+    const setupAgeChart = () => {
+      const ageGroups = patientData.value.reduce((acc, patient) => {
+        const ageGroup = Math.floor(patient.age / 10) * 10
+        acc[ageGroup] = (acc[ageGroup] || 0) + 1
+        return acc
+      }, {})
+
+      ageChartData.value = [
+        {
+          name: 'Number of Patients',
+          data: Object.values(ageGroups)
+        }
+      ]
+
+      ageChartOptions.value = {
+        chart: {
+          type: 'bar'
+        },
+        title: {
+          text: 'Patient Age Distribution'
+        },
+        xaxis: {
+          categories: Object.keys(ageGroups).map((ageGroup) => `${ageGroup}s`)
+        },
+        yaxis: {
+          title: {
+            text: 'Number of Patients'
+          }
+        }
+      }
+    }
+
+    // Setup Patient Count Over Time (Line)
+    const setupCountChart = () => {
+      const patientCountByDate = patientData.value.reduce((acc, patient) => {
+        const date = patient.createdAt.toISOString().split('T')[0]
+        acc[date] = (acc[date] || 0) + 1
+        return acc
+      }, {})
+
+      const sortedDates = Object.keys(patientCountByDate).sort()
+
+      countChartData.value = [
+        {
+          name: 'Patient Count',
+          data: sortedDates.map((date) => patientCountByDate[date])
+        }
+      ]
+
+      countChartOptions.value = {
+        chart: {
+          type: 'line'
+        },
+        title: {
+          text: 'Patient Count Over Time'
+        },
+        xaxis: {
+          categories: sortedDates
+        },
+        yaxis: {
+          title: {
+            text: 'Number of Patients'
+          }
+        }
+      }
+    }
+
+    // Setup Country Distribution Chart (Pie)
+    const setupCountryChart = () => {
+      const countryGroups = patientData.value.reduce((acc, patient) => {
         acc[patient.country] = (acc[patient.country] || 0) + 1
         return acc
       }, {})
 
-      // Prepare data for the chart
-      chartData.value = Object.values(countryCount)
-
-      // Set up the chart options
-      chartOptions.value = {
+      countryChartData.value = Object.values(countryGroups)
+      countryChartOptions.value = {
         chart: {
           type: 'pie'
         },
-        labels: Object.keys(countryCount),
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 300
-              },
-              legend: {
-                position: 'bottom'
-              }
-            }
-          }
-        ]
+        labels: Object.keys(countryGroups),
+        title: {
+          text: 'Patient Country Distribution'
+        }
       }
     }
 
-    // Fetch data and stop loading on mounted
+    // Fetch Data and Setup Charts on Component Mount
     onMounted(async () => {
       await fetchPatientData()
-      isLoading.value = false // Mark loading as complete
-      setupChart() // Setup chart after data is loaded
+      isLoading.value = false
+      setupAgeChart()
+      setupCountChart()
+      setupCountryChart()
     })
 
     return {
       isLoading,
-      chartData,
-      chartOptions
+      selectedChart,
+      ageChartData,
+      ageChartOptions,
+      countChartData,
+      countChartOptions,
+      countryChartData,
+      countryChartOptions
     }
   }
 }
@@ -92,5 +206,8 @@ export default {
 <style scoped>
 .container {
   margin-top: 100px;
+}
+.text-center {
+  text-align: center;
 }
 </style>
