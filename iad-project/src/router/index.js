@@ -11,7 +11,9 @@ import patientView from '@/views/patientView.vue'
 import EventTableView from '@/views/EventTableView.vue'
 import mapView from '@/views/mapView.vue'
 import addPatientView from '@/views/addPatientView.vue'
+import Interactivechart from '@/views/InteractiveChart.vue'
 const routes = [
+  { path: '/interactivechart', name: 'Interactivechart', component: Interactivechart },
   { path: '/add-patient', name: 'addPatientView', component: addPatientView },
   { path: '/map', name: 'mapView', component: mapView },
   { path: '/events', name: 'EventTableView', component: EventTableView },

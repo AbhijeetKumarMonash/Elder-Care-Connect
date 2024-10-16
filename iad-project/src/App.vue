@@ -1,7 +1,6 @@
 <template>
   <div class="main-container">
-    <BHeader />
-    <header></header>
+    <header><BHeader /></header>
     <main class="main-box">
       <router-view></router-view>
     </main>
@@ -12,6 +11,9 @@
 import BHeader from './components/BHeader.vue'
 
 export default {
+  components: {
+    BHeader
+  },
   name: 'App'
 }
 </script>
