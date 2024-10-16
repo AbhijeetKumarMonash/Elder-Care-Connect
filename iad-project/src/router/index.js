@@ -11,15 +11,10 @@ import patientView from '@/views/patientView.vue'
 import EventTableView from '@/views/EventTableView.vue'
 import mapView from '@/views/mapView.vue'
 import addPatientView from '@/views/addPatientView.vue'
-import CalenderView from '@/views/CalenderView.vue'
 const routes = [
   { path: '/add-patient', name: 'addPatientView', component: addPatientView },
   { path: '/map', name: 'mapView', component: mapView },
-  {
-    path: '/events',
-    name: 'EventTable',
-    component: EventTableView
-  },
+  { path: '/events', name: 'EventTableView', component: EventTableView },
   { path: '/patient', name: 'patientView', component: patientView },
   { path: '/send-email', name: 'sendEmailView', component: sendEmailView },
   { path: '/', name: 'Home', component: Home },
