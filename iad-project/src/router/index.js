@@ -13,7 +13,9 @@ import mapView from '@/views/mapView.vue'
 import addPatientView from '@/views/addPatientView.vue'
 import Interactivechart from '@/views/InteractiveChart.vue'
 import GenerateApiKey from '@/views/GenerateApiKey.vue'
+import Gemini from '@/views/Gemini.vue'
 const routes = [
+  { path: '/gemini', name: 'Gemini', component: Gemini },
   { path: '/generateapikey', name: 'Generate Api Key', component: GenerateApiKey },
   { path: '/interactivechart', name: 'Interactivechart', component: Interactivechart },
   { path: '/add-patient', name: 'addPatientView', component: addPatientView },

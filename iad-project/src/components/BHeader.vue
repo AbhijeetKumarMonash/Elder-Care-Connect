@@ -22,6 +22,7 @@
             >Admin Dashboard</router-link
           >
         </li>
+
         <li v-if="currentUser && currentUser.role === 'admin'" class="nav-item">
           <router-link to="/add-patient" class="nav-link" active-class="active">
             Add New Patient
@@ -36,6 +37,9 @@
           <router-link to="/account" class="nav-link" active-class="active"
             >Account Information</router-link
           >
+        </li>
+        <li v-if="currentUser" class="nav-item">
+          <router-link to="/gemini" class="nav-link" active-class="active">Gemini AI</router-link>
         </li>
         <li v-if="currentUser" class="nav-item">
           <router-link to="/patient" class="nav-link" active-class="active"
