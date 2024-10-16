@@ -1,6 +1,6 @@
 <template>
   <div class="map-page">
-    <BHeader />
+    <header><BHeader /></header>
     <div class="navigation-inputs">
       <input v-model="startLocation" placeholder="Enter starting location" />
       <input v-model="destinationLocation" placeholder="Enter destination" />

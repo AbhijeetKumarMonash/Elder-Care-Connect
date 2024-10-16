@@ -1,6 +1,7 @@
 <template>
   <div class="container mt-5">
-    <BHeader />
+    <header><BHeader /></header>
+
     <ExportComponent :tableData="events" fileName="event-data" />
     <h2 class="text-center">Upcoming Events</h2>
     <div class="global-filter-container">
