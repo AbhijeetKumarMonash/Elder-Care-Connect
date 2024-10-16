@@ -4,15 +4,17 @@
     <main class="main-box">
       <router-view></router-view>
     </main>
+    <footer><FooterSection /></footer>
   </div>
 </template>
 
 <script>
 import BHeader from './components/BHeader.vue'
-
+import FooterSection from './components/Footer.vue'
 export default {
   components: {
-    BHeader
+    BHeader,
+    FooterSection
   },
   name: 'App'
 }
@@ -37,7 +39,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #007bff;
+  background-color: #0056b3;
   color: white;
   padding: 5px;
   border-radius: 5px;
@@ -46,7 +48,7 @@ img {
 }
 
 .about-us-section {
-  background-color: #007bff;
+  background-color: #0056b3;
   color: white;
   padding: 30px;
   border-radius: 10px;
@@ -70,8 +72,22 @@ img {
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
+  background-color: #0056b3;
   margin: 0;
   padding: 0;
+}
+.main-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding-bottom: 80px; /* Ensures content doesn't overlap with the footer */
+}
+
+footer {
+  flex-shrink: 0;
 }
 </style>
