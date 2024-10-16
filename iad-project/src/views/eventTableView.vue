@@ -1,6 +1,7 @@
 <template>
   <div class="container mt-5">
     <BHeader />
+    <ExportComponent :tableData="events" fileName="event-data" />
     <h2 class="text-center">Upcoming Events</h2>
     <div class="global-filter-container">
       <span class="p-input-icon-left">
@@ -61,12 +62,14 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import BHeader from '@/components/BHeader.vue'
 import { events } from '@/mockEventData'
+import ExportComponent from '@/components/ExportComponent.vue'
 
 export default {
   components: {
     DataTable,
     Column,
-    BHeader
+    BHeader,
+    ExportComponent
   },
   setup() {
     const filters = ref({
