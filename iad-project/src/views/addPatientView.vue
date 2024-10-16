@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-    <BHeader />
+    <header><BHeader /></header>
     <h2>Add New Patient</h2>
     <form @submit.prevent="addPatient">
       <div class="form-group">
