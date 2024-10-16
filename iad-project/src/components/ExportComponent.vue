@@ -63,6 +63,15 @@ export default {
   justify-content: space-around;
   margin-bottom: 10px;
 }
+.export-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+button {
+  padding: 10px 15px;
+  cursor: pointer;
+}
 
 button {
   padding: 10px 15px;

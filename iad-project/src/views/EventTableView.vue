@@ -1,8 +1,9 @@
 <template>
   <div class="container mt-5">
     <header><BHeader /></header>
-
-    <ExportComponent :tableData="events" fileName="event-data" />
+    <div class="export-section justify-content: center">
+      <ExportComponent :tableData="events" fileName="event-data" />
+    </div>
     <h2 class="text-center">Upcoming Events</h2>
     <div class="global-filter-container">
       <span class="p-input-icon-left">
@@ -90,12 +91,27 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin-top: 100px;
+.custom-table {
+  margin-top: 20px;
+  width: 100%;
 }
 
-.global-filter-container {
-  margin-bottom: 20px;
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.container {
+  padding-top: 120px; /* Add padding to the top to account for the fixed header */
+}
+
+.export-section {
+  display: flex;
+  justify-content: flex-start; /* Align buttons to the left */
+  margin-bottom: 20px; /* Space below the buttons */
+  margin-top: 20px; /* Space above the buttons */
 }
 
 .text-center {

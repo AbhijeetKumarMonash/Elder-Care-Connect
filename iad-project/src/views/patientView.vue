@@ -2,7 +2,9 @@
   <div class="container mt-5">
     <BHeader />
     <!-- Header component -->
-    <ExportComponent :tableData="patients" fileName="patients-data" />
+    <div class="export-section justify-content: center">
+      <ExportComponent :tableData="patients" fileName="patients-data" />
+    </div>
     <h2 class="text-center">Elder Care Patient Data</h2>
     <div class="global-filter-container">
       <span class="p-input-icon-left">
@@ -113,18 +115,26 @@ export default {
   width: 100%;
 }
 
-.text-center {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 .table-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
+
 .container {
-  margin-top: 100px;
+  padding-top: 120px; /* Add padding to the top to account for the fixed header */
+}
+
+.export-section {
+  display: flex;
+  justify-content: flex-start; /* Align buttons to the left */
+  margin-bottom: 20px; /* Space below the buttons */
+  margin-top: 20px; /* Space above the buttons */
+}
+
+.text-center {
+  text-align: center;
+  margin-bottom: 20px;
 }
 </style>
