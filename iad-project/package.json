@@ -12,6 +12,11 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
+    "@fullcalendar/vue3": "^6.1.15",
     "@mapbox/mapbox-gl-directions": "^4.3.1",
     "@mapbox/mapbox-sdk": "^0.16.1",
     "@primevue/themes": "^4.1.0",

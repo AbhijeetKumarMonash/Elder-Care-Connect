@@ -8,9 +8,10 @@ import UserView from '@/views/UserView.vue'
 import AccountView from '@/views/AccountView.vue'
 import sendEmailView from '@/views/sendEmailView.vue'
 import patientView from '@/views/patientView.vue'
-import EventTableView from '@/views/EventTableView.vue'
+import EventTableView from '@/views/eventTableView.vue'
 import mapView from '@/views/mapView.vue'
 import addPatientView from '@/views/addPatientView.vue'
+import CalenderView from '@/views/CalenderView.vue'
 const routes = [
   { path: '/add-patient', name: 'addPatientView', component: addPatientView },
   { path: '/map', name: 'mapView', component: mapView },
