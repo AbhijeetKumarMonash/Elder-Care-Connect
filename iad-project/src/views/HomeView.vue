@@ -15,7 +15,7 @@
           </p>
           <div class="hero-actions">
             <router-link to="/signup" class="btn-primary">Join the community</router-link>
-            <router-link to="/gemini" class="btn-ghost">Ask our health assistant</router-link>
+            <router-link to="/login" class="btn-ghost">Sign in to explore features</router-link>
           </div>
         </div>
         <div class="hero-media">
@@ -37,74 +37,25 @@
       </p>
     </section>
 
-    <!-- HOW WE HELP — references real platform features -->
+    <!-- HOW WE HELP -->
     <section class="help">
       <header class="section-head">
         <h2>How we help</h2>
-        <p>Everything a member or carer needs, gathered into one platform.</p>
+        <p>Everything a member or carer needs, gathered into one platform. Sign in to use them.</p>
       </header>
 
       <div class="pillars">
-        <article class="pillar">
-          <div class="pillar-icon"><i class="pi pi-comments"></i></div>
-          <h3>AI health assistant</h3>
-          <p>
-            Friendly, around-the-clock answers on exercise, nutrition and everyday wellness, powered
-            by our Gemini-based assistant.
-          </p>
-          <router-link to="/gemini" class="pillar-link">Try the assistant →</router-link>
-        </article>
-
-        <article class="pillar">
-          <div class="pillar-icon"><i class="pi pi-calendar"></i></div>
-          <h3>Community events</h3>
-          <p>
-            A searchable calendar of gatherings, workshops and activities that keep members socially
-            engaged and supported.
-          </p>
-          <router-link to="/events" class="pillar-link">See what's on →</router-link>
-        </article>
-
-        <article class="pillar">
-          <div class="pillar-icon"><i class="pi pi-heart"></i></div>
-          <h3>Coordinated care records</h3>
-          <p>
-            Care providers, insurance and key details kept organised so the right people always have
-            the right information.
-          </p>
-          <router-link to="/patient" class="pillar-link">View care records →</router-link>
-        </article>
-
-        <article class="pillar">
-          <div class="pillar-icon"><i class="pi pi-chart-bar"></i></div>
-          <h3>Health insights</h3>
-          <p>
-            Clear, interactive charts that turn member data into patterns carers and admins can act
-            on with confidence.
-          </p>
-          <router-link to="/interactivechart" class="pillar-link">Explore insights →</router-link>
-        </article>
-
-        <article class="pillar">
-          <div class="pillar-icon"><i class="pi pi-map-marker"></i></div>
-          <h3>Getting there</h3>
-          <p>
-            Built-in maps and routing help members and families find services and reach appointments
-            without the stress.
-          </p>
-          <router-link to="/map" class="pillar-link">Open the map →</router-link>
-        </article>
-
-        <article class="pillar">
-          <div class="pillar-icon"><i class="pi pi-send"></i></div>
-          <h3>Staying in touch</h3>
-          <p>
-            Direct messaging and email keep members, carers and our team connected between visits
-            and events.
-          </p>
-          <router-link to="/send-email" class="pillar-link">Send a message →</router-link>
+        <article v-for="f in features" :key="f.title" class="pillar">
+          <div class="pillar-icon" v-html="f.icon"></div>
+          <h3>{{ f.title }}</h3>
+          <p>{{ f.body }}</p>
+          <router-link :to="f.to" class="pillar-link">{{ f.cta }} →</router-link>
         </article>
       </div>
+      <p class="help-note">
+        These features are available to members. If you're not signed in, we'll take you to the
+        login page first.
+      </p>
     </section>
 
     <!-- STORY -->
@@ -158,8 +109,72 @@
 </template>
 
 <script setup>
-// App.vue already renders the shared header and footer, so this view
-// focuses purely on the About Us content (no duplicate <BHeader />).
+// App.vue already renders the shared header and footer, so this view holds
+// only the About Us content (no duplicate <BHeader />).
+//
+// Feature links point to the real protected routes. The router's navigation
+// guard redirects signed-out visitors to /login (with a ?redirect back here),
+// and lets signed-in members straight through — so the buttons behave
+// correctly for both states without exposing protected pages.
+
+// Inline SVGs are used instead of icon-font classes so icons always render,
+// regardless of whether the PrimeIcons stylesheet is loaded.
+const icon = {
+  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 0 1-.9-3.8 8.38 8.38 0 0 1 8.5-8.5A8.5 8.5 0 0 1 21 11.5z"/></svg>',
+  calendar:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+  heart:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.5 1-1a5.5 5.5 0 0 0 0-7.9z"/></svg>',
+  chart:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+  map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>'
+}
+
+const features = [
+  {
+    icon: icon.chat,
+    title: 'AI health assistant',
+    body: 'Friendly, around-the-clock answers on exercise, nutrition and everyday wellness, powered by our Gemini-based assistant.',
+    cta: 'Try the assistant',
+    to: '/gemini'
+  },
+  {
+    icon: icon.calendar,
+    title: 'Community events',
+    body: 'A searchable calendar of gatherings, workshops and activities that keep members socially engaged and supported.',
+    cta: "See what's on",
+    to: '/events'
+  },
+  {
+    icon: icon.heart,
+    title: 'Coordinated care records',
+    body: 'Care providers, insurance and key details kept organised so the right people always have the right information.',
+    cta: 'View care records',
+    to: '/patient'
+  },
+  {
+    icon: icon.chart,
+    title: 'Health insights',
+    body: 'Clear, interactive charts that turn member data into patterns carers and admins can act on with confidence.',
+    cta: 'Explore insights',
+    to: '/interactivechart'
+  },
+  {
+    icon: icon.map,
+    title: 'Getting there',
+    body: 'Built-in maps and routing help members and families find services and reach appointments without the stress.',
+    cta: 'Open the map',
+    to: '/map'
+  },
+  {
+    icon: icon.send,
+    title: 'Staying in touch',
+    body: 'Direct messaging and email keep members, carers and our team connected between visits and events.',
+    cta: 'Send a message',
+    to: '/send-email'
+  }
+]
 </script>
 
 <style scoped>
@@ -179,7 +194,7 @@
   font-family: 'Source Sans 3', system-ui, sans-serif;
   color: var(--ink);
   background: var(--sand);
-  margin: -1rem 0 0; /* sit flush under fixed header area */
+  margin: -1rem 0 0;
 }
 
 .ecc-about section {
@@ -380,8 +395,11 @@
   place-items: center;
   background: rgba(15, 76, 92, 0.08);
   color: var(--teal);
-  font-size: 1.4rem;
   margin-bottom: 1.1rem;
+}
+.pillar-icon :deep(svg) {
+  width: 26px;
+  height: 26px;
 }
 .pillar h3 {
   font-family: 'Fraunces', Georgia, serif;
@@ -405,6 +423,12 @@
 }
 .pillar-link:hover {
   text-decoration: underline;
+}
+.help-note {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 1.75rem 0 0;
 }
 
 /* STORY */
