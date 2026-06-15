@@ -11,6 +11,7 @@ import Aura from '@primevue/themes/aura'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Paginator from 'primevue/paginator'
+import 'primeicons/primeicons.css' // <-- loads the `pi pi-*` icon font app-wide (search box, etc.)
 
 // Firebase
 import { auth } from './firebase/init'
