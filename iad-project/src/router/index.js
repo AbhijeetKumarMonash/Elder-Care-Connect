@@ -6,6 +6,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import Home from '../views/HomeView.vue'
 import RatingView from '@/views/RatingView.vue'
 import LoginView from '@/views/LoginView.vue'
+import ForgotPasswordView from '@/views/ForgotPasswordView.vue'
 import signup from '@/views/signup.vue'
 import AdminView from '@/views/AdminView.vue'
 import UserView from '@/views/UserView.vue'
@@ -25,6 +26,7 @@ const routes = [
   { path: '/rating', name: 'Rating', component: RatingView },
   { path: '/generateapikey', name: 'GenerateApiKey', component: GenerateApiKey },
   { path: '/login', name: 'Login', component: LoginView },
+  { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPasswordView },
   { path: '/signup', name: 'Signup', component: signup },
 
   // ---- Authenticated users ----
