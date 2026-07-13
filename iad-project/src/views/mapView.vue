@@ -1,13 +1,26 @@
 <template>
   <div class="map-page">
-    <header><BHeader /></header>
-    <div class="navigation-inputs">
-      <input v-model="startLocation" placeholder="Enter starting location" />
-      <input v-model="destinationLocation" placeholder="Enter destination" />
-      <button @click="getRoute">Get Route</button>
-    </div>
+    <section class="map-hero">
+      <span class="eyebrow">Getting there</span>
+      <h1>Map &amp; directions</h1>
+      <p class="lede">Find services and plan routes with turn-by-turn directions.</p>
+    </section>
 
-    <div id="map" class="map-container"></div>
+    <section class="map-card">
+      <div class="navigation-inputs">
+        <div class="input-wrap">
+          <label for="from">From</label>
+          <input id="from" v-model="startLocation" placeholder="Enter starting location" />
+        </div>
+        <div class="input-wrap">
+          <label for="to">To</label>
+          <input id="to" v-model="destinationLocation" placeholder="Enter destination" />
+        </div>
+        <button class="btn-primary" @click="getRoute">Get route</button>
+      </div>
+
+      <div id="map" class="map-container"></div>
+    </section>
   </div>
 </template>
 
@@ -16,12 +29,8 @@ import { ref, onMounted } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from '@mapbox/mapbox-sdk/services/geocoding'
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.js'
-import BHeader from '@/components/BHeader.vue'
 
 export default {
-  components: {
-    BHeader
-  },
   name: 'MapView',
   setup() {
     const map = ref(null)
@@ -33,11 +42,9 @@ export default {
     })
 
     onMounted(() => {
-      // Set the Mapbox GL access token globally
       mapboxgl.accessToken =
         'pk.eyJ1IjoiYWJoaWplZXQwMGk3IiwiYSI6ImNtMmJhdjRvOTAzZ2MybW9meWR4bGJqb3QifQ.KySwta8EFws6MPjMDjTk-Q'
 
-      // Initialize the map
       map.value = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
@@ -45,22 +52,18 @@ export default {
         zoom: 9
       })
 
-      // Add navigation controls (zoom in/out)
       map.value.addControl(new mapboxgl.NavigationControl())
 
-      // Add directions control
       const directions = new MapboxDirections({
         accessToken: mapboxgl.accessToken,
         unit: 'metric',
         profile: 'mapbox/driving'
       })
 
-      // Add directions to the map
       map.value.addControl(directions, 'top-left')
     })
 
     const getRoute = async () => {
-      // Use the geocoding service to get coordinates for the start and destination locations
       const startCoords = await geocoder
         .forwardGeocode({ query: startLocation.value, limit: 1 })
         .send()
@@ -69,12 +72,10 @@ export default {
         .forwardGeocode({ query: destinationLocation.value, limit: 1 })
         .send()
 
-      // Check if valid results are returned
       if (startCoords.body.features.length && destinationCoords.body.features.length) {
         const start = startCoords.body.features[0].geometry.coordinates
         const destination = destinationCoords.body.features[0].geometry.coordinates
 
-        // Add directions to the map
         map.value.getSource('route').setData({
           type: 'FeatureCollection',
           features: [
@@ -100,42 +101,126 @@ export default {
 </script>
 
 <style scoped>
-/* Styling for the map container and input fields */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
 .map-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  --teal: #0f4c5c;
+  --teal-deep: #0a3744;
+  --coral: #e76f51;
+  --sand: #fbf7f1;
+  --line: #ece3d6;
+  --muted: #5d6b73;
+  --ink: #22333b;
+
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--sand);
+  margin: -1rem auto 0;
+  padding: clamp(5rem, 9vw, 7rem) clamp(1.25rem, 6vw, 5rem) clamp(3rem, 6vw, 5rem);
+  max-width: 1280px;
 }
-.map-container {
-  height: 500px;
-  width: 100%;
-  margin-top: 10px;
+
+.map-hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--coral);
+}
+.map-hero h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+  color: var(--teal-deep);
+  margin: 0.5rem 0 0.6rem;
+}
+.lede {
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.map-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 24px 60px -34px rgba(15, 76, 92, 0.4);
 }
 
 .navigation-inputs {
-  display: flex;
-  justify-content: center;
-  margin: 10px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0.75rem;
+  align-items: end;
+  margin-bottom: 1.25rem;
+}
+.input-wrap label {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+.input-wrap input {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 0.65rem 0.9rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: #fffdf9;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.input-wrap input:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(15, 76, 92, 0.12);
 }
 
-input {
-  width: 250px;
-  padding: 10px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+.btn-primary {
+  background: var(--coral);
+  color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 12px;
+  padding: 0.65rem 1.4rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
 }
 
-button:hover {
-  background-color: #0056b3;
+.map-container {
+  height: 520px;
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+@media (max-width: 720px) {
+  .navigation-inputs {
+    grid-template-columns: 1fr;
+  }
+  .btn-primary {
+    width: 100%;
+    padding: 0.8rem;
+  }
+  .map-container {
+    height: 420px;
+  }
 }
 </style>

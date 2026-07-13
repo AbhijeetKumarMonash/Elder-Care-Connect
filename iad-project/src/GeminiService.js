@@ -1,21 +1,23 @@
-// useGemini.js
-
-import { GoogleGenerativeAI } from '@google/generative-ai'
+// GeminiService.js
+//
+// The Gemini key is NO LONGER used here. This now calls our own server
+// endpoint (a Cloudflare Pages Function at /api/gemini), which holds the key
+// as an encrypted secret. Nothing sensitive is shipped to the browser.
 
 export const useGemini = async (prompt) => {
-  const VITE_GOOGLE_AI_STUDIO_API_KEY = import.meta.env.VITE_GOOGLE_AI_STUDIO_API_KEY
+  const res = await fetch('/api/gemini', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt })
+  })
 
-  // Initialize the Gemini API client
-  const genAI = new GoogleGenerativeAI(VITE_GOOGLE_AI_STUDIO_API_KEY)
+  if (!res.ok) {
+    throw new Error('Gemini request failed')
+  }
 
-  // Specify the model you want to use
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
-
-  // Generate the content based on the user's prompt
-  const result = await model.generateContent(prompt)
-
-  const response = await result.response
-  const text = await response.text()
-
-  return text
+  const data = await res.json()
+  if (data.error) {
+    throw new Error(data.error)
+  }
+  return data.text
 }
